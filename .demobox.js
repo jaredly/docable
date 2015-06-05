@@ -18,10 +18,10 @@ module.exports = {
       Github: 'https://github.com/jaredly/demobox',
     }),
     require('./plugins/readme')(
-      '../Readme.md'
+      'Readme.md'
     ),
     require('./plugins/view-source')(
-      'https://github.com/jaredly/demobox/blob/master/docs/',
+      'https://github.com/jaredly/demobox/blob/master/docs/'
     ),
   ],
 }

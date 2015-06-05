@@ -14,19 +14,23 @@ export default class Header extends React.Component {
   }
 }
 
+/**
+ * {
+ *  name: href | true | {href: str, open: bool, children: {}} | {href: str, active: bool}
+ * }
+ */
 function makeLinkList(links) {
   if (!links) return []
   let second = null
   const main = Object.keys(links).map(name => {
     let link = links[name]
-    if (!link || name[0] === '$') return
-    if (link.$sub) {
-      if (link.$open) {
-        second = makeLinkList(link)
+    if (link.children) {
+      if (link.open) {
+        second = makeLinkList(link.children)
       }
       link = {
-        href: link.$index,
-        active: link.$open,
+        href: link.href,
+        active: link.open,
       }
     }
 

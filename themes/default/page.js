@@ -6,7 +6,7 @@ import Header from './header'
 
 const PT = React.PropTypes
 
-export default function page(pageData, themeConfig, styles, plugins) {
+export default function page(pageData, themeConfig, plugins) {
 
   const fonts = themeConfig.fontPair ? fontPairs[themeConfig.fontPair] : themeConfig.fonts
 
@@ -169,4 +169,6 @@ function fontUrls(fonts) {
   }
   return urls
 }
+
+export {Page}
 

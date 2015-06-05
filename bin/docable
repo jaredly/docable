@@ -59,11 +59,15 @@ const cmd = argv._[0]
 
 const commands = {
   gen(db, options) {
-  console.log('generating')
-    db.generate(err => {
-      console.log('Done generating')
-      if (err) console.log(err)
-    })
+    console.log('generating')
+    db.generate().then(pages => db.write(pages))
+      .catch(err => {
+        console.log('Done generating')
+        if (err) {
+          console.log(err)
+          console.log(err.stack)
+        }
+      })
   },
   server(db, options) {
     db.serve(options.port)

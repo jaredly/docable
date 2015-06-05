@@ -3,6 +3,19 @@ title: Plugins
 subtitle: The Other Super Hero
 ---
 
+# Plugin Hooks
+
+## sourcePaths (string, [string], or ctx => (string | [string]))
+
+## preprocess (pagedata) => newdata
+
+## page (pagedata) => newdata
+This is used for render.
+
+## postprocess (filedata) => ???
+
+
+
 # Most Basic Plugin
 
 The most basic plugin only cares about a single page at a time, and doesn't
