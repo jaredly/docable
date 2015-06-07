@@ -30,6 +30,12 @@ iframe {
 `
 
 export default class Viewer extends React.Component {
+  constructor(props) {
+    super(props)
+    this._lastRenderTime = 0
+    this._tout = null
+  }
+
   _onLoad() {
     this.doc = React.findDOMNode(this.iframe).contentDocument
     const tag = this.doc.createElement('style')
@@ -40,7 +46,14 @@ export default class Viewer extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this._render()
+    if (this._tout) return
+    if (this._lastRenderTime < 10) {
+      return this._render()
+    }
+    this._tout = setTimeout(() => {
+      this._render()
+      this._tout = null
+    }, this._lastRenderTime * 3)
   }
 
   _render() {
@@ -48,6 +61,7 @@ export default class Viewer extends React.Component {
       console.log('waiting for data...')
       return
     }
+    const start = Date.now()
     const file = this.props.file
     if (file.type !== 'page') {
       let el
@@ -90,6 +104,7 @@ export default class Viewer extends React.Component {
       styles={themeStyles}/>
 
     React.render(el, this.doc.body)
+    this._lastRenderTime = Date.now() - start
   }
 
   render() {
