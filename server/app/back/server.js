@@ -1,6 +1,6 @@
 
 import Demobox from '../../../lib'
-import yaml from 'yamlish'
+import yaml from 'js-yaml'
 import fs from 'fs'
 
 export default class Server {
@@ -12,14 +12,18 @@ export default class Server {
 
   updatePage(req, res) {
     const file = req.body
+    if (file.type !== 'page') return res.send('not a page')
     const rawBody = file.rawBody
     const sourcePath = file.sourcePath
     delete file.rawBody
-    const extras = ['source', 'sourcePath', 'dest', 'rawSource']
+    console.log(sourcePath)
+    const extras = ['type', 'source', 'sourcePath', 'dest', 'rawSource']
     extras.forEach(name => {delete file[name]})
-    const meta = yaml.encode(file)
+    const meta = yaml.dump(file)
     const raw = '<!--\n---\n\n' + meta + '\n\n---\n-->\n\n' + rawBody
     fs.writeFileSync(sourcePath, raw)
+    res.send('awesome')
+    this.data = this.db.generate()
   }
 
   getData(req, res) {

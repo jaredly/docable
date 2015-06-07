@@ -50,8 +50,9 @@ export default class App extends React.Component {
     this.onSlowSave = minAwesome(this.onSave.bind(this), 1000, 10000)
     this.state = {
       files: null,
-      path: window.location.hash.slice(1),
+      hash: window.location.hash.slice(1),
     }
+    this._dirty = false
   }
 
   componentWillMount() {
@@ -68,8 +69,9 @@ export default class App extends React.Component {
         })
         this.setState({
           files: toMap(files),
-          hash: files[0].source,
+          hash: this.state.hash || files[0].source,
         })
+        this._dirty = false
       });
     });
   }
@@ -80,7 +82,10 @@ export default class App extends React.Component {
     for (let name in file) {
       if (name === '_renderedBody') continue
       if (name === 'rendered') continue
-      cp[name] = file
+      if (name === 'rawSource') continue
+      if (name === 'body') continue
+      if (!name) continue
+      cp[name] = file[name]
     }
     fetch('/admin/api/pages', {
       method: 'post',
@@ -90,6 +95,7 @@ export default class App extends React.Component {
       body: JSON.stringify(cp),
     }).then(response => {
     })
+    this._dirty = false
   }
 
   componentDidUpdate() {
@@ -99,7 +105,8 @@ export default class App extends React.Component {
   }
 
   setHash(hash) {
-    this.onSave()
+    if (this._dirty) this.onSave()
+    this._dirty = false
     this.setState({hash})
   }
 
@@ -120,6 +127,7 @@ export default class App extends React.Component {
     const files = this.state.files
     files[this.state.hash].rawBody = value
     this.setState({files})
+    this._dirty = true
     this.onSlowSave()
   }
 

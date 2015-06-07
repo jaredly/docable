@@ -85,7 +85,7 @@ export default class Viewer extends React.Component {
         const dest = node.href.slice(prefix.length)
         this.props.navToDest(dest)
       }}
-      pageData={file}
+      file={file}
       plugins={plugins}
       styles={themeStyles}/>
 

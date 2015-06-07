@@ -25,13 +25,13 @@ export default class Page extends React.Component {
     const {
       title, subtitle, cdn, body, fontFamily,
       colors, sourceLink
-    } = this.props.pageData
+    } = this.props.file
     const styles = this.props.styles
     const plugins = this.props.plugins
 
     const links = {}
-    for (let name in this.props.pageData.links) {
-      links[name] = this.props.pageData.links[name]
+    for (let name in this.props.file.links) {
+      links[name] = this.props.file.links[name]
     }
     plugins.forEach(plugin => {
       if (!plugin.links) return

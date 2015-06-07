@@ -1,8 +1,13 @@
----
-title: Lifecycle
-subtitle: The steps of a render
+<!--
 ---
 
+type: page
+title: Lifecycle
+subtitle: The steps of a render
+
+
+---
+-->
 
 # Steps to generate
 
@@ -11,4 +16,4 @@ subtitle: The steps of a render
 - Gather up all the files to process
 - Generate the results, collecting static asset references
 - Copy over static assets, write out manifest file
-- 
+-
