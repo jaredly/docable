@@ -3,10 +3,8 @@ import React from 'react'
 import czz from 'czz'
 import RCSS from 'rcss'
 
-import {fluxify} from 'flammable/react'
-
 import {pluginPages} from '../../../lib/cheap-utils'
-
+import render from '../../../lib/render'
 import config from 'docable$config'
 
 const CZZ = czz.isolate()
@@ -19,7 +17,6 @@ const themeStylesString = CZZ.getString()
 const {styles} = czz`
 viewer {
   flex: 1
-  background-color: #eef
   display: flex
   flex-direction: column
 }
@@ -27,30 +24,19 @@ viewer {
 iframe {
   border: 1px solid #ccc;
   flex: 1
-  margin: 10px;
+  margin: 5px;
+  background-color: white;
 }
 `
 
-@fluxify({
-  data: {
-          /*
-    doc: {
-      curpath: 'curpath',
-      pageData: 'pageData',
-    }
-    */
-  },
-})
 export default class Viewer extends React.Component {
   _onLoad() {
-    const doc = React.findDOMNode(this.iframe).contentDocument
-    const tag = doc.createElement('style')
+    this.doc = React.findDOMNode(this.iframe).contentDocument
+    const tag = this.doc.createElement('style')
     tag.innerHTML = themeStylesString
-    doc.head.appendChild(tag)
+    this.doc.head.appendChild(tag)
+    this.doc.body.style.zoom = .5
     this._render()
-  }
-
-  componentDidMount() {
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -58,26 +44,56 @@ export default class Viewer extends React.Component {
   }
 
   _render() {
-    if (!this.props.pageData || !this.props.curpath) {
+    if (!this.props.file) {
       console.log('waiting for data...')
       return
     }
+    const file = this.props.file
+    if (file.type !== 'page') {
+      let el
+      if (file.source.endsWith('.png')) {
+        el = <img className={styles.imageAsset}
+          src={"/admin/assets?file=" + file.sourcePath}/>
+      } else {
+        el = <pre>
+          {JSON.stringify(file, null, 2)}
+        </pre>
+      }
+      return React.render(el, this.doc.body)
+    }
+
+    if (file.rawBody !== file._renderedBody) {
+      file.body = render(file.rawBody)
+      file._renderedBody = file.rawBody
+    }
+
     const Comp = config.theme.Page
-    const plugins = pluginPages(
-      config.plugins,
-      this.props.pageData,
-      this.props.curpath
-    )
+    const plugins = pluginPages(config.plugins, file)
     const el = <Comp
-      pageData={this.props.pageData}
+      onClick={e => {
+        const node = e.target
+        if (node.nodeName !== 'A') {
+          return
+        }
+        e.preventDefault()
+        e.stopPropagation()
+        const prefix = window.location.origin + '/'
+        if (!node.href.startsWith(prefix)) {
+          window.open(node.href)
+          return
+        }
+        const dest = node.href.slice(prefix.length)
+        this.props.navToDest(dest)
+      }}
+      pageData={file}
       plugins={plugins}
       styles={themeStyles}/>
-    const themeData = config.theme.page
+
+    React.render(el, this.doc.body)
   }
 
   render() {
     return <div className={styles.viewer}>
-      Viewer
       <iframe
         className={styles.iframe}
         onLoad={this._onLoad.bind(this)}
@@ -86,6 +102,4 @@ export default class Viewer extends React.Component {
     </div>
   }
 }
-
-
 

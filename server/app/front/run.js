@@ -5,12 +5,12 @@ import App from './'
 import makeFlux from './flux'
 import czz from 'czz'
 
-const flux = makeFlux()
+// const flux = makeFlux()
 
 const div = document.createElement('div')
 document.body.appendChild(div)
 
-React.render(flux.wrap(<App/>), div)
+React.render((<App/>), div)
 
 czz.injectAll()
 

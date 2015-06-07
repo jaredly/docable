@@ -1,55 +1,10 @@
 
 import React from 'react'
-import fontPairs from './font-pairs'
-
 import Header from './header'
 
 const PT = React.PropTypes
 
-export default function page(pageData, themeConfig, plugins) {
-
-  const fonts = themeConfig.fontPair ? fontPairs[themeConfig.fontPair] : themeConfig.fonts
-
-  const pluginScripts = plugins.reduce((scripts, plugin) => {
-    if (plugin.scripts) {
-      return scripts.concat(plugin.scripts)
-    }
-    return scripts
-  }, [])
-
-  const pluginStyles = plugins.reduce((styles, plugin) => {
-    if (plugin.styles) {
-      return styles.concat(plugin.styles)
-    }
-    return styles
-  }, [])
-
-  return {
-    head: {
-      title: pageData.title,
-      scripts: [
-        // "codemirror/codemirror.min.js",
-        // "codemirror/mode/javascript/javascript.min.js",
-        // "react.js",
-        // "demobox.js",
-      ].concat(pluginScripts),
-      styles: [
-        // "codemirror/codemirror.min.css",
-        // "highlight.js/styles/default.min.css",
-        "./css/markdown.css",
-        "./css/demobox.css",
-        "./css/theme.css",
-        // 'https://fonts.googleapis.com/css?family=Open+Sans:800',
-        // 'https://fonts.googleapis.com/css?family=Gentium+Basic',
-      ].concat(fontUrls(fonts))
-       .concat(pluginStyles),
-    },
-
-    Page,
-  }
-}
-
-class Page extends React.Component {
+export default class Page extends React.Component {
   constructor(props) {
     super(props)
   }
@@ -106,11 +61,9 @@ class Page extends React.Component {
         styles={styles}
         block={block}
         sourceLink={sourceLink}/>
-      // TODO a google analytics plugin, allow it to add the analytics stuff
-      // here
     }, plugins)
 
-    return <div className={this.props.styles.page}>
+    return <div onClick={this.props.onClick} className={this.props.styles.page}>
       {children}
     </div>
   }
@@ -152,22 +105,6 @@ class Content extends React.Component {
     return <div className={'markdown-content ' + this.props.styles.content.container}
       dangerouslySetInnerHTML={{__html: this.props.text}}/>
   }
-}
-
-function fontUrls(fonts) {
-  const urls = []
-  const gfonts = []
-  for (let name in fonts) {
-    if (fonts[name].gfont) {
-      gfonts.push(fonts[name].gfont)
-    } else if (fonts[name].url) {
-      urls.push(fonts[name].url)
-    }
-  }
-  if (gfonts.length) {
-    urls.push('https://fonts.googleapis.com/css?family=' + gfonts.join('|'))
-  }
-  return urls
 }
 
 export {Page}

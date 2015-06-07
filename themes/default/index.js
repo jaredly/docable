@@ -2,13 +2,13 @@
 import fontPairs from './font-pairs'
 import colorSwatches from './color-swatches'
 
-import page from './page'
-import {Page} from './page'
+import head from './head'
+import Page from './page'
 import styles from './styles'
 
 module.exports = {
   name: 'default',
-  page,
+  head,
   styles,
   defaultConfig: {
     fonts: fontPairs['Open Sans'],

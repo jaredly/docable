@@ -3,12 +3,13 @@ var path = require('path')
 var BASE = path.join(__dirname, 'node_modules')
 
 module.exports = {
+  devtool: 'eval',
   entry: './app/front/run.js',
   output: {
     path: __dirname + '/app/build',
     filename: 'bundle.js',
   },
-  
+
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {

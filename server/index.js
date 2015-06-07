@@ -7,6 +7,7 @@ import setupApp from './app/back'
 
 const configPath = path.join(__dirname, '../.demobox.js')
 const config = require(configPath)
+config.baseDir = path.dirname(configPath)
 
 let app
 if (true) {

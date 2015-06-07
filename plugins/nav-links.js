@@ -25,7 +25,6 @@ export default class NavLinks {
 
   page(pageData) {
     const parts = pageData.dest.split('/')
-    console.log('parts', parts)
     const nav = walkBack(this.dir, parts, path.dirname(pageData.dest))
     return {
       links: nav.children
@@ -37,7 +36,7 @@ function walkBack(dir, parts, basedir, sub) {
   const obj = {
     children: {},
     open: !!parts,
-    href: path.relative(basedir, dir['index.html'].dest)
+    href: '/' + dir['index.html'].dest,
   }
   const names = Object.keys(dir)
     .filter(name => {
@@ -70,7 +69,7 @@ function walkBack(dir, parts, basedir, sub) {
     if (subparts !== null) {
       obj.children[title] = true
     } else {
-      obj.children[title] = path.relative(basedir, item.dest)
+      obj.children[title] = '/' + item.dest
     }
   })
   return obj
