@@ -19,8 +19,6 @@ export default function head(pageData, themeConfig) {
       "./css/markdown.css",
       "./css/demobox.css",
       "./css/theme.css",
-      // 'https://fonts.googleapis.com/css?family=Open+Sans:800',
-      // 'https://fonts.googleapis.com/css?family=Gentium+Basic',
     ].concat(fontUrls(fonts)),
   }
 }

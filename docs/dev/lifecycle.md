@@ -1,19 +1,19 @@
-<!--
 ---
-
-type: page
 title: Lifecycle
 subtitle: The steps of a render
 
-
 ---
--->
-
 # Steps to generate
 
-# Cold start, no cache
+## Cold start, no cache
 
-- Gather up all the files to process
-- Generate the results, collecting static asset references
-- Copy over static assets, write out manifest file
--
+- `collect sources`
+- `read files`
+- `preprocess`
+- `generate`
+- `render`
+- `postprocess`
+- `write out`
+
+## With cache
+Not sure how this will work TBH.

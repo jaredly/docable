@@ -18,7 +18,7 @@ export default class NavLinks {
     }, this.dir)
     dir[name] = {
       title: file.navTitle || file.title,
-      index: file.navIndex,
+      index: file.navIndex === undefined ? 1000 : file.navIndex,
       dest: file.dest,
     }
   }

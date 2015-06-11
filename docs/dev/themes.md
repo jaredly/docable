@@ -1,25 +1,9 @@
-<!--
 ---
-
-type: page
 title: Themes
 subtitle: 'Personalize, Diversify'
 
-
 ---
--->
-
-# Using a theme
-
-- have it somewhere. npm modules are awesome
-- require it in the .docable.js config file as the "theme".
-
-```javascript
-module.exports = {
-  // ... other config
-  theme: require('my-awesome-theme')
-}
-```
+To learn how to use themes in your documentation, [go here](/config/themes.html).
 
 # Theme API
 You should `module.exports` an object with these attributes:

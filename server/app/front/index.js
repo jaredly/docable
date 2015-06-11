@@ -20,7 +20,7 @@ app {
 }
 `
 
-function minAwesome(fn, minTime, maxTime) {
+function throttle(fn, minTime, maxTime) {
   let last = null
   let tout = null
   return function () {
@@ -47,7 +47,7 @@ function minAwesome(fn, minTime, maxTime) {
 export default class App extends React.Component {
   constructor() {
     super()
-    this.onSlowSave = minAwesome(this.onSave.bind(this), 1000, 10000)
+    this.onSlowSave = throttle(this.onSave.bind(this), 1000, 10000)
     this.state = {
       files: null,
       hash: window.location.hash.slice(1),
@@ -131,6 +131,29 @@ export default class App extends React.Component {
     this.onSlowSave()
   }
 
+  onMetaChange(data) {
+    const files = this.state.files
+    const file = files[this.state.hash]
+    for (let name in data) {
+      file[name] = data[name]
+    }
+    this.setState({files})
+    this._dirty = true
+    this.onSlowSave()
+  }
+
+  onCreateFile(name) {
+    const files = this.state.files
+    files[name] = {
+      type: 'page',
+      title: name,
+      source: name,
+      dest: name.slice(0, -3) + '.html',
+      rawBody: 'Hello docable',
+    }
+    this.setState({files, hash: name})
+  }
+
   render() {
     if (!this.state.files) {
       return <div>Loading...</div>
@@ -139,9 +162,11 @@ export default class App extends React.Component {
     return <div className={styles.app}>
       <Browser
         onSelect={this.onSelect.bind(this)}
+        onCreateFile={this.onCreateFile.bind(this)}
         selected={this.state.hash}
         files={this.state.files}/>
       <Editor
+        onChangeMeta={this.onMetaChange.bind(this)}
         onChange={this.onBodyChange.bind(this)}
         file={selected}/>
       <Viewer

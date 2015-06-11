@@ -1,12 +1,8 @@
-<!--
 ---
-
-type: page
 title: Writing
-
-
+subtitle: Putting Pen to paper
+navIndex: 2
 ---
--->
 
 This is how you write a markdown page.
 
@@ -21,20 +17,20 @@ Normal fences
 ---
 title: Awesome
 ---
+
 body...
 ```
 
 Or comment fences (which will hide the frontmatter from normal markdown renderers)
 ```
-<!--
----
+<!-- @frontmatter
 title: Read this
----
 -->
+
 body...
 ```
 
-Attributes: (all are technically optional)
+Attributes (all are technically optional)
 
 Attr|Value
 -|-
@@ -105,5 +101,3 @@ click the header to close it
 
 #### An expanded section (>>)
 click the header to close it
-
-

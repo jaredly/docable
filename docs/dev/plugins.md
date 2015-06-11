@@ -1,14 +1,8 @@
-<!--
 ---
-
-type: page
 title: Plugins
 subtitle: The Other Super Hero
 
-
 ---
--->
-
 # Plugin Hooks
 
 ## sourcePaths: `string | [string] | ctx => (string | [string])`

@@ -57,7 +57,7 @@ class Nav extends React.Component {
     const styles = this.props.styles
     const links = this.props.links
     const main = <ul className={styles.links}>
-      {links.main.map(link => link && <li className={styles.linkItem}>
+      {links.main.map(link => link && <li key={link.href} className={styles.linkItem}>
         <a className={cx(
           styles.link,
           link.active && styles.linkActive,

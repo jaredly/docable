@@ -1,12 +1,7 @@
-<!--
----
-
-type: page
+<!-- @frontmatter
 title: Quickstart
 subtitle: Up and documenting in 5 minutes
-
-
----
+navIndex: 1
 -->
 
 # Getting up and Running
@@ -27,7 +22,9 @@ npm install -g docable
 
 Run `docable init` in the base directory of your project.
 
-If you want, you can also create the `.docable.js` file manually. [Here's the info](/config.html) on what should go in it.
+TODO maybe `docable init blog` if it's a more bloglike thing?
+
+Or create the `.docable.js` file manually. [Here's the info](/config/index.html) on what should go in it.
 
 ## 3. Start the editor
 
@@ -38,11 +35,18 @@ listening on http://localhost:4011
 
 ## 4. Create some awesome docs!
 
-You can [watch a video TODO]() about this whole bit if you want. Also, the [Writing](/writing.html) page should be useful.
+- See the [Writing](/writing.html) docs about how to format things
+- Check out the [configuration](/config/index.html) section to make this your own.
+- Watch [a video]() about this whole setup, because why not.
+- Read [the source]() for this page to see how things look
 
 # Publishing to Github Pages
 
-To make this as seamless as possible, the following setup is suggested:
+## Option 1: `docable setup-pages`
+And you're done. A new `./pages` directory is created containing a checkout of the `gh-pages` directory. You can then just `docable push "my commit message"` to push your new docs, which essentially does `cd pages && git add . && git commit -am "my commit message" && git push`.
+
+## Option 2: By hand
+This is how the `setup-pages` command works, if you're curious or want things to be setup somewhat differently.
 
 First add `/pages` to your `.gitignore` file.
 
