@@ -154,6 +154,16 @@ export default class App extends React.Component {
     this.setState({files, hash: name})
   }
 
+  onScrollEditor(line) {
+    console.log('scroll editor', line)
+    this.viewer.scrollNearLine(line)
+  }
+
+  onScrollViewer(line) {
+    console.log('scroll viewer', line)
+    this.editor.scrollIntoView(line)
+  }
+
   render() {
     if (!this.state.files) {
       return <div>Loading...</div>
@@ -166,11 +176,15 @@ export default class App extends React.Component {
         selected={this.state.hash}
         files={this.state.files}/>
       <Editor
+        ref={e => this.editor = e}
         onChangeMeta={this.onMetaChange.bind(this)}
         onChange={this.onBodyChange.bind(this)}
+        onScroll={this.onScrollEditor.bind(this)}
         file={selected}/>
       <Viewer
+        ref={v => this.viewer = v}
         navToDest={this.navToDest.bind(this)}
+        onScroll={this.onScrollViewer.bind(this)}
         file={selected}/>
     </div>
   }

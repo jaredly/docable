@@ -30,13 +30,14 @@ export default class Server {
     }).catch(err => {
       console.log('Failed')
       console.log(err)
+      console.log(err.stack)
     })
   }
 
   updatePage(req, res) {
     const file = req.body
     if (file.type !== 'page') return res.send('not a page')
-    const sourcePath = file.sourcePath || path.join(config.baseDir, config.source, file.source)
+    const sourcePath = file.sourcePath || path.join(this.config.baseDir, this.config.source, file.source)
     const raw = toRaw(this.config, file)
     fs.writeFileSync(sourcePath, raw)
     res.send('awesome')

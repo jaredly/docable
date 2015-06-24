@@ -9,7 +9,7 @@ Configuration is done in the `.docable.js` file at the base of your project.
 You can look at [the one for this project]() as an example.
 
 Name|Type|Default|Description
--|-
+-|-|-|-
 source|str|`"./docs"`|where the docs are (relative)
 dest|str|`"./pages"`|destination for generation (relative)
 theme|[Theme](/config/themes.html)|[default theme]()|the theme to use

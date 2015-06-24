@@ -4,7 +4,7 @@ import czz from 'czz'
 import RCSS from 'rcss'
 
 import {pluginPages} from '../../../lib/cheap-utils'
-import render from '../../../lib/render'
+import render from 'mark-that'
 import config from 'docable$config'
 
 const CZZ = czz.isolate()
@@ -13,6 +13,7 @@ const stylesObj = config.theme.styles(config.themeConfig)
 const res = CZZ.groups(stylesObj)
 const themeStyles = res.styles
 const themeStylesString = CZZ.getString()
+const renderer = render(config, true)
 
 const {styles} = czz`
 viewer {
@@ -29,6 +30,29 @@ iframe {
 }
 `
 
+function scroller(el) {
+  let goal = 0
+  let _int
+  return function (pos) {
+    if (pos === false) {
+      return clearInterval(_int)
+    }
+    goal = pos
+    if (_int) return
+    _int = setInterval(() => {
+      const pre = el.scrollTop
+      const diff = (goal - el.scrollTop)
+      el.scrollTop += diff / 10
+      if (pre === el.scrollTop || Math.abs(goal - el.scrollTop) < 1) {
+        el.scrollTop = goal
+        clearInterval(_int)
+        _int = null
+      }
+    }, 16);
+    return _int;
+  }
+}
+
 export default class Viewer extends React.Component {
   constructor(props) {
     super(props)
@@ -42,6 +66,18 @@ export default class Viewer extends React.Component {
     tag.innerHTML = themeStylesString
     this.doc.head.appendChild(tag)
     this.doc.body.style.zoom = .5
+    this.doc.body.onmousewheel = evt => {
+      clearInterval(this._scrolling);
+      const lines = this.doc.body.querySelectorAll('[data-line]')
+      for (let i=0; i<lines.length; i++) {
+        const top = lines[i].getBoundingClientRect().top
+        if (top > 0) {
+          this.props.onScroll(+lines[i].getAttribute('data-line'))
+          return
+        }
+      }
+    }
+    this.scroller = scroller(this.doc.body)
     this._render()
   }
 
@@ -54,6 +90,55 @@ export default class Viewer extends React.Component {
       this._render()
       this._tout = null
     }, this._lastRenderTime * 3)
+  }
+
+  scrollNearLine(line) {
+    if (line === false) {
+      this.scroller(this.doc.body.scrollHeight)
+      return
+    }
+
+    if (line === 0) {
+      this.scroller(0)
+      return
+    }
+    this.scroller(this.getLinePos(line) / 2)
+  }
+
+  getLinePos(line) {
+    var before = null, after = null, amount = null
+    for (let i=0; i<this._lines.length; i++) {
+      if (this._lines[i] === line) {
+        before = line
+        amount = 0
+        break;
+      }
+      if (this._lines[i] > line) {
+        if (i === 0) {
+          before = this._lines[i]
+          amount = 0
+        } else {
+          after = this._lines[i]
+          before = this._lines[i-1]
+          amount = (line - before) / (after - before)
+        }
+        break;
+      }
+    }
+    if (before === null) {
+      return this.doc.body.scrollHeight
+    }
+    const relTop = this.doc.body.getBoundingClientRect().top
+    const node1 = this.doc.querySelector('[data-line="' + before + '"]')
+    const n1top = node1.getBoundingClientRect().top - relTop
+    return n1top;
+    // TODO maybe revisit?
+    if (!after) {
+      return n1top
+    }
+    const node2 = this.doc.querySelector('[data-line="' + after + '"]')
+    const n2top = node2.getBoundingClientRect().top - relTop
+    return (n2top - n1top) * amount + n1top
   }
 
   _render() {
@@ -77,7 +162,9 @@ export default class Viewer extends React.Component {
     }
 
     if (file.rawBody !== file._renderedBody) {
-      file.body = render(file.rawBody)
+      let lines
+      [file.body, lines] = renderer(file.rawBody)
+      this._lines = lines
       file._renderedBody = file.rawBody
     }
 

@@ -2,15 +2,15 @@
 title: Writing
 subtitle: Putting Pen to paper
 navIndex: 2
----
 
+---
 This is how you write a markdown page.
 
 # "Frontmatter"
 
 This is a YAML definition of metadata about a page. It must be placed first within the file.
 
-It can be within `---` fences, or (recommended for the `Readme.md`), within comment fences.
+It can be within `---` fences, or within comment fences (recommended for the `Readme.md`).
 
 Normal fences
 ```
@@ -38,17 +38,16 @@ title|The title at the top of the page
 subtitle|Below the title
 navTitle|The title to show in navigation
 navIndex|To specify ordering in the navigation
-links|A dict of `title: href`
+links|A dict of `title: href`, which get displayed in the top nav
 
 # The Body
 
 The body of your page is markdown, with a couple of extensions. For a nice intro to markdown, check out [github's tutorial](https://help.github.com/articles/markdown-basics/).
 
-## comment blocks
+## Commented blocks
+Sometimes you want to show or hide a section when it's rendered by Docable, but do the opposite when it's rendered by some other markdown renderer, like github.
 
-In order to maintain as much compatibility with other markdown renderers as possible (read: github =), many of `docable`'s syntax extensions are within html comments.
-
-For example, if you want something to be shown by a normal renderer, but not by docable, you can do
+To hide something from docable, use these comments:
 
 ```
 <!-- @docable hide -->
@@ -56,7 +55,7 @@ You should really look at the [rendered version]() of this page
 <!-- @docable /hide -->
 ```
 
-Conversely, if you want something to be hidden by normal renderers, but to show up on docable:
+And to show something in docable that's hidden otherwise, use this comment:
 
 ```
 <!-- @docable show
@@ -101,3 +100,17 @@ click the header to close it
 
 #### An expanded section (>>)
 click the header to close it
+
+## `@` links
+Using `@` links, you can have some embedded content in your documentation, that is nevertheless still accessible (rendered as a normal link) when rendered by some other markdown renderer.
+
+### Embed video
+```
+[![Yawtoob](http://img.youtube.com/vi/Yip94VsvWQ0/0.jpg)](http://youtube.com/watch?v=Yip94VsvWQ0)
+```
+[![Yawtoob](http://img.youtube.com/vi/Yip94VsvWQ0/0.jpg)](http://youtube.com/watch?v=Yip94VsvWQ0)
+
+### Embed code
+```
+[Here's the example file](./file.js "@include:javascript Some caption")
+```

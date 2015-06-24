@@ -1,9 +1,9 @@
-<!-- @frontmatter
+---
 title: Quickstart
 subtitle: Up and documenting in 5 minutes
 navIndex: 1
--->
 
+---
 # Getting up and Running
 
 ## 0. Prereqs
@@ -32,6 +32,8 @@ Or create the `.docable.js` file manually. [Here's the info](/config/index.html)
 $ docable serve
 listening on http://localhost:4011
 ```
+
+Then going to http://localhost:4011/admin/ will get you to the IDE, and you can start writing.
 
 ## 4. Create some awesome docs!
 
@@ -77,4 +79,4 @@ Having the `gh-pages` branch in a subdirectory makes things easier for publishin
 
 ## Actually publishing
 
-`docable gen` will generate your docs, and put the output into the build directory (`./pages` by default). If that directory is setup as suggested to contain your `gh-pages` branch, publishing is as simple as `git commit` and `git push`.
+`docable gen` will generate your docs, and put the output into the build directory (`./pages` by default). If that directory is setup as suggested to contain your `gh-pages` branch, publishing is as simple `dockable push "my commit message"`, or (doing the same thing) `cd pages && git add . && git commit -am "my commit message" && git push`.

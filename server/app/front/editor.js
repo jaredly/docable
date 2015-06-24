@@ -2,6 +2,55 @@
 import React from 'react'
 import czz from 'czz'
 import {Form} from 'formative'
+import CodeMirrorText from './codemirror'
+
+export default class Editor extends React.Component {
+  scrollIntoView(line) {
+    this.cm.scrollIntoView(line)
+  }
+
+  render() {
+    return <div className={styles.editor}>
+      {this.props.file.type === 'page' && <MetaData
+        key={this.props.file.source}
+        onChange={data => this.props.onChangeMeta(data)}
+        data={this.props.file}/>}
+      <CodeMirrorText className={styles.text}
+        ref={cm => this.cm = cm}
+        lineWrapping={true}
+        onChange={value => this.props.onChange(value)}
+        onScroll={this.props.onScroll}
+        value={this.props.file.rawBody}/>
+    </div>
+  }
+}
+
+class MetaData extends React.Component {
+  _onSubmit(data, e) {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    if (data.navIndex) data.navIndex = parseInt(data.navIndex)
+    this.props.onChange(data)
+  }
+  render() {
+    return <Form
+      onChange={this._onSubmit.bind(this)}
+      onSubmit={this._onSubmit.bind(this)}
+      className={styles.metadata} initialData={{
+        title: this.props.data.title,
+        subtitle: this.props.data.subtitle,
+        navIndex: this.props.data.navIndex,
+        navTitle: this.props.data.navTitle,
+      }}>
+      <input className={styles.title} type="text" name="title" placeholder="Title"/>
+      <input className={styles.subtitle} type="text" name="subtitle" placeholder="Subtitle"/>
+      <input name="navIndex" type='number' placeholder="Nav index (number)"/>
+      <input name="navTitle" placeholder="Nav title"/>
+    </Form>
+  }
+}
 
 const {styles} = czz`
 editor {
@@ -36,44 +85,4 @@ subtitle {
   padding: 3px 5px
 }
 `
-
-export default class Editor extends React.Component {
-  render() {
-    return <div className={styles.editor}>
-      {this.props.file.type === 'page' && <MetaData
-        key={this.props.file.source}
-        onChange={data => this.props.onChangeMeta(data)}
-        data={this.props.file}/>}
-      <textarea className={styles.text}
-        onChange={e => this.props.onChange(e.target.value)} value={this.props.file.rawBody}/>
-    </div>
-  }
-}
-
-class MetaData extends React.Component {
-  _onSubmit(data, e) {
-    if (e) {
-      e.preventDefault()
-      e.stopPropagation()
-    }
-    if (data.navIndex) data.navIndex = parseInt(data.navIndex)
-    this.props.onChange(data)
-  }
-  render() {
-    return <Form
-      onChange={this._onSubmit.bind(this)}
-      onSubmit={this._onSubmit.bind(this)}
-      className={styles.metadata} initialData={{
-        title: this.props.data.title,
-        subtitle: this.props.data.subtitle,
-        navIndex: this.props.data.navIndex,
-        navTitle: this.props.data.navTitle,
-      }}>
-      <input className={styles.title} type="text" name="title" placeholder="Title"/>
-      <input className={styles.subtitle} type="text" name="subtitle" placeholder="Subtitle"/>
-      <input name="navIndex" type='number' placeholder="Nav index (number)"/>
-      <input name="navTitle" placeholder="Nav title"/>
-    </Form>
-  }
-}
 

@@ -5,7 +5,6 @@ subtitle: Bend it to your will
 navIndex: 4
 
 ---
-
 # Extending
 
 If you want to extend Docable, there are two main avenues you can take.

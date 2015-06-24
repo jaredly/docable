@@ -14,9 +14,14 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       'react': path.join(__dirname, '../node_modules/react'),
+      'json-loader': path.join(__dirname, './node_modules/json-loader'),
       // 'formative': path.join(__dirname, '../form'),
       'flammable': path.join(__dirname, '../../flammable'),
     },
+  },
+
+  node: {
+    fs: 'empty',
   },
 
   module: {
@@ -26,20 +31,12 @@ module.exports = {
       exclude: [
         'node_modules',
       ],
-      /*
-      include: [
-        path.join(__dirname, 'app/front'),
-        path.join(__dirname, '../plugins'),
-        path.join(__dirname, '../themes'),
-        // path.join(__dirname, 'lib'),
-        // path.join(__dirname, 'extra'),
-        // path.join(__dirname, '../form'),
-        path.join(__dirname, '../../flammable'),
-      ]
-      */
     }, {
       test: /\.json$/,
-      loader: 'json',
+      loader: path.join(__dirname, 'node_modules/json-loader'),
+      include: [
+        path.join(__dirname, '../node_modules/mark-that'),
+      ],
     }]
   },
 }

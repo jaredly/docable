@@ -26,12 +26,10 @@ This is really the reason I built docable. I wanted a rich experience for creati
 
 With the Integrated Documentation Environment, writing docs is not only palatable, but downright appealing.
 
-TODO image here
-
 ## Just markdown
 Markdown is awesome. WhatYouWriteIsWhatYouWant. Or something.
 
-Plus there are some bonuses for unlocking a bit more visual flexibility. Look at the [Writing](/writing.html) page for full details.
+Your documentation will be readable right in github, with some extra goodness when published with docable. For more info check out the [Writing](./writing.md#the-body) page.
 
 ## Plugin based
 What can plugins do?
@@ -74,6 +72,9 @@ Uses: custom [ruby server](https://github.com/emberjs/website/tree/master/lib)
 
 ## Angular 2.0
 Uses: [Harpjs](http://harpjs.com/), a static site generator
+
+## Babel
+Uses: Custom Jekyll setup
 
 # Docable vs...
 

@@ -14,6 +14,29 @@ export default class Header extends React.Component {
   }
 }
 
+class Nav extends React.Component {
+  render() {
+    const styles = this.props.styles
+    const links = this.props.links
+    const main = <ul className={styles.links}>
+      {links.main.map(link => link && <li key={link.href} className={styles.linkItem}>
+        <a className={cx(
+          styles.link,
+          link.active && styles.linkActive,
+          !link.href && styles.linkCurrent,
+          link.external && styles.linkExternal,
+        )} target={link.external ? '_blank' : undefined} href={link.href} title={link.title}>{link.text}</a>
+      </li>)}
+    </ul>
+    if (!links.second) return main
+    return <div>
+      {main}
+      <Nav links={links.second}
+        styles={styles}/>
+    </div>
+  }
+}
+
 /**
  * {
  *  name: href | true | {href: str, open: bool, children: {}} | {href: str, active: bool}
@@ -50,28 +73,5 @@ function makeLinkList(links) {
     return link
   })
   return {main, second}
-}
-
-class Nav extends React.Component {
-  render() {
-    const styles = this.props.styles
-    const links = this.props.links
-    const main = <ul className={styles.links}>
-      {links.main.map(link => link && <li key={link.href} className={styles.linkItem}>
-        <a className={cx(
-          styles.link,
-          link.active && styles.linkActive,
-          !link.href && styles.linkCurrent,
-          link.external && styles.linkExternal,
-        )} target={link.external ? '_blank' : undefined} href={link.href} title={link.title}>{link.text}</a>
-      </li>)}
-    </ul>
-    if (!links.second) return main
-    return <div>
-      {main}
-      <Nav links={links.second}
-        styles={styles}/>
-    </div>
-  }
 }
 
