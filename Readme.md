@@ -5,11 +5,11 @@ subtitle: The Integrated Documentation Environment and Static Site Generator
 navIndex: 0
 
 -->
-<!-- @demobox hide -->
+<!-- @docable hide -->
 
 ## See the docs rendered on [the website](https://jaredly.github.io/docable)
 
-<!-- @demobox /hide -->
+<!-- @docable /hide -->
 
 ## Docable is here to make documentation easy and enjoyable
 

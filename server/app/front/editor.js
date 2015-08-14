@@ -20,7 +20,7 @@ export default class Editor extends React.Component {
         lineWrapping={true}
         onChange={value => this.props.onChange(value)}
         onScroll={this.props.onScroll}
-        value={this.props.file.rawBody}/>
+        value={this.props.file.rawBody || ''}/>
     </div>
   }
 }
@@ -46,8 +46,8 @@ class MetaData extends React.Component {
       }}>
       <input className={styles.title} type="text" name="title" placeholder="Title"/>
       <input className={styles.subtitle} type="text" name="subtitle" placeholder="Subtitle"/>
-      <input name="navIndex" type='number' placeholder="Nav index (number)"/>
-      <input name="navTitle" placeholder="Nav title"/>
+      <input className={styles.subtitle} name="navIndex" type='number' placeholder="Nav index (number)"/>
+      <input className={styles.subtitle} name="navTitle" placeholder="Nav title"/>
     </Form>
   }
 }
@@ -77,12 +77,22 @@ title {
   outline: none
   font-size: 20px
   padding: 3px 5px
+  flex-shrink: 0
 }
 
 subtitle {
   outline: none
   font-size: 16px
   padding: 3px 5px
+  flex-shrink: 0
+}
+
+navitem {
+  flex-shrink: 0
+}
+
+navtitle {
+  flex-shrink: 0
 }
 `
 

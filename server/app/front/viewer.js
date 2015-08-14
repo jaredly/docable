@@ -195,12 +195,14 @@ export default class Viewer extends React.Component {
   }
 
   render() {
+    const href = this.props.file && this.props.file.dest
     return <div className={styles.viewer}>
       <iframe
         className={styles.iframe}
         onLoad={this._onLoad.bind(this)}
         ref={i => this.iframe = i}
         src="/admin/iframe"/>
+      <a href={'/' + href} target="_blank" className={styles.fullView}>full view</a>
     </div>
   }
 }

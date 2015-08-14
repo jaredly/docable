@@ -5,7 +5,7 @@ subtitle: Customizing the experience
 ---
 If you want info on developing your own plugins, [go over here](/dev/plugins.html).
 
-# Included by default
+# Plugins Included by default
 
 ## Readme
 
